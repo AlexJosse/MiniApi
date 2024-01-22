@@ -1,0 +1,80 @@
+/*const request = require('supertest');
+const app = require('../app'); // Import your app
+
+describe('/api/register', () => {
+  it('should register a new user', async () => {
+    const response = await request(app)
+      .post('/api/register')
+      .send({
+        username: 'testuser',
+        email: 'testuser@example.com',
+        password: 'password123',
+        address: '123 Test St',
+      });
+
+    expect(response.statusCode).toBe(200); // Or other success status code
+    expect(response.body).toHaveProperty('id');
+    expect(response.body).toHaveProperty('username', 'testuser');
+    expect(response.body).toHaveProperty('email', 'testuser@example.com');
+    expect(response.body).toHaveProperty('address', '123 Test St');
+  });
+});
+
+describe('/api/users/login', () => {
+  it('should log in a user and return a JWT token', async () => {
+    const response = await request(app)
+      .post('/api/users/login')
+      .send({
+        username: 'testuser',
+        password: 'password123',
+      });
+
+    expect(response.statusCode).toBe(200); // Or other success status code
+    expect(response.body).toHaveProperty('token'); // Assuming the token is returned as 'token'
+  });
+});
+
+
+describe('/api/orders/order', () => {
+  let token;
+
+  // Assuming you have a function to log in and get a token
+  beforeAll(async () => {
+    const res = await request(app)
+      .post('/api/users/login')
+      .send({ username: 'testuser', password: 'password123' });
+    token = res.body.token;
+  });
+
+  it('should create an order', async () => {
+    const response = await request(app)
+      .post('/api/orders/order')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        mini: 45,
+        package: 'aucun',
+      });
+
+    expect(response.statusCode).toBe(200); // Or other success status code
+    // Further assertions based on the expected response
+  });
+});
+
+describe('/api/orders/user/4', () => {
+  let token;
+
+  // Get the token as before
+  beforeAll(async () => {
+    // ...log in and get token
+  });
+
+  it('should return orders for a specific user', async () => {
+    const response = await request(app)
+      .get('/api/orders/user/4')
+      .set('Authorization', `Bearer ${token}`);
+
+    expect(response.statusCode).toBe(200); // Or other success status code
+    expect(response.body).toBeInstanceOf(Array);
+    // Further assertions based on the expected response
+  });
+}); */
