@@ -6,6 +6,7 @@ WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json (or yarn.lock)
 COPY package*.json ./
+COPY prisma ./prisma/
 
 # Copy "wait-for-it.sh" to the container
 COPY wait-for-it.sh /usr/src/app/
