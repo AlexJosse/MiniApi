@@ -1,10 +1,15 @@
 import { UserController } from '../controllers/user.controller';
 import httpMocks from 'node-mocks-http';
+import  UserModel  from '../models/user.model';
+import * as bcrypt from 'bcrypt';
 
-import bcrypt from 'bcryptjs';
-
-// Mock the entire 'bcrypt' module
-jest.mock('bcrypt');
+// Mock the 'compare' function of bcrypt
+jest.mock('bcrypt', () => {
+  return {
+    ...jest.requireActual('bcrypt'),
+    compare: jest.fn(),
+  };
+});
 
 /*jest.mock('@prisma/client', () => ({
   PrismaClient: jest.fn().mockImplementation(() => ({
@@ -20,25 +25,29 @@ jest.mock('bcrypt');
   })),
 }));*/
 
-jest.mock('../models/user.model', () => ({
-  findUserByUsername: jest.fn().mockResolvedValue({
-    username: 'testUser',
-    password: 'hashedPassword',
-    email: 'test@example.com',
-    address: '123 Test St',
-  }),
+/*jest.mock('../models/user.model', () => ({
+  ...jest.requireActual('../models/user.model'),
   createUser: jest.fn().mockResolvedValue({
-    username:'alexandare',
-    email:'alexandrejossaefr@gmail.com',
+    username:'testUser',
+    email:'test@example.com',
     password: 'TestTest123@',
-    address:'14 bis allée saint hubert',
+    address:'123 Test St',
   }),
-}));
+}));*/
 
+beforeAll(() => {
+  UserModel.findUserByUsername = jest.fn();
+});
 
 describe('UserController', () => {
   describe('createUser', () => {
     it('should create a new user and return 201 status', async () => {
+      UserModel.createUser = jest.fn().mockResolvedValue({
+        username:'testUser',
+        email:'test@example.com',
+        password: 'TestTest123@',
+        address:'123 Test St',
+      });
       const req = httpMocks.createRequest({
         body: {
           username: 'testUser',
@@ -54,28 +63,30 @@ describe('UserController', () => {
     });
   });
 
-  /* describe('loginUser', () => {
+  describe('loginUser', () => {
     it('should return a token if the password matches', async () => {
-      // Mock the behavior of bcrypt.compare
-      (bcrypt.compare as jest.Mock).mockResolvedValueOnce(true);
 
-      // Setup your request and response objects
+      (bcrypt.compare as jest.Mock).mockResolvedValueOnce(true);
+      (UserModel.findUserByUsername as jest.Mock).mockResolvedValueOnce({
+        id: 1,
+        username: 'testUser',
+        password: 'TestTest123@',
+        email:'test@example.com',
+        address:'123 Test St',
+      });
       const req = httpMocks.createRequest({
         body: {
           username: 'testUser',
-          password: 'Password@123',
+          password: 'TestTest123@',
         },
       });
       const res = httpMocks.createResponse();
 
       await UserController.loginUser(req, res);
-
-      // Perform your assertions
-      expect(res.statusCode).toBe(200); // Adjust based on your actual success status code
-      // Check if a token is returned, etc.
+      expect(res.statusCode).toBe(200);
     });
 
-    it('should return 400 if the password does not match', async () => {
+    it('should return 400 if the password does not match and message', async () => {
       // Mock the behavior of bcrypt.compare
       (bcrypt.compare as jest.Mock).mockResolvedValueOnce(false);
 
@@ -90,10 +101,9 @@ describe('UserController', () => {
 
       await UserController.loginUser(req, res);
 
-      // Perform your assertions
-      expect(res.statusCode).toBe(400); // Or whatever your failure status code is
-      // Additional assertions
+      const data = res._getJSONData();
+      expect(res.statusCode).toBe(400);
+      expect(data).toHaveProperty('message', 'Invalid username or password.');
     });
-  });*/
-  
+  }); 
 });

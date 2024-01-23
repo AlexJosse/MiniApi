@@ -7,6 +7,8 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.ts',
     '!src/app.ts',
+    '!src/interfaces/**/*.ts',
+    '!src/__test__/**/*.ts',
   ],
-  coverageReporters: ['json', 'lcov', 'text', 'clover'], // Specify coverage report formats
+  coverageReporters: ['json', 'lcov', 'text', 'clover'],
 };
