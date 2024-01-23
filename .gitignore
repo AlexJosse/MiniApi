@@ -1,7 +1,5 @@
 node_modules
 coverage
-.env
 yarn.lock
 miniFactory/node_modules
-miniFactory/.env
 miniFactory/yarn.lock
