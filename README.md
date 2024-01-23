@@ -14,6 +14,11 @@ The MiniFigurine API is a backend service built using Node.js, PostgreSQL, Redis
   docker-compose up
 ```
 
+- **Run the unit tests**:
+```json
+  yarn test
+```
+
 ## Key Features
 - **User Registration and Authentication:** Secure user registration and login functionality.
 - **Order Processing:** Users can place orders for miniature figurines. The order processing is handled asynchronously through message passing with Redis.
