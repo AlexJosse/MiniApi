@@ -3,6 +3,17 @@
 ## Project Overview
 The MiniFigurine API is a backend service built using Node.js, PostgreSQL, Redis, and TypeScript, integrated with Prisma for database operations. This API facilitates user registration, login, and ordering of miniature figurines. The system has a unique feature where orders are processed through a publish-subscribe mechanism using Redis. The MiniFactory, a subscriber in this setup, receives order updates, processes them, and communicates back with the API to update order statuses in the PostgreSQL database.
 
+## Setup and start project
+- **Docker necessary**: https://docs.docker.com/engine/install/
+- **Build app:** Users can place orders for miniature figurines. The order processing is handled asynchronously through message passing with Redis.
+```json
+  docker-compose build --no-cache
+```
+- **Run the application**:
+```json
+  docker-compose up
+```
+
 ## Key Features
 - **User Registration and Authentication:** Secure user registration and login functionality.
 - **Order Processing:** Users can place orders for miniature figurines. The order processing is handled asynchronously through message passing with Redis.
@@ -83,7 +94,7 @@ The MiniFigurine API is a backend service built using Node.js, PostgreSQL, Redis
     "updatedat": "2024-01-23T16:23:50.469Z"
   }
   ```
-### User Login
+### Get orders by UserId
 - **Endpoint:** `/api/orders/user/:userId` (GET)
 - **Response:**
   ```json
