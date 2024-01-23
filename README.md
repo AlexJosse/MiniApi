@@ -25,7 +25,7 @@ The MiniFigurine API is a backend service built using Node.js, PostgreSQL, Redis
 ## API Endpoints
 
 ### User Registration
-- **Endpoint:** `/register` (POST)
+- **Endpoint:** `/api/users/register` (POST)
 - **Body:**
   ```json
   {
@@ -45,7 +45,7 @@ The MiniFigurine API is a backend service built using Node.js, PostgreSQL, Redis
   }
   ```
 ### User Login
-- **Endpoint:** `/login` (POST)
+- **Endpoint:** `/api/users/login` (POST)
 - **Body:**
   ```json
   {
@@ -58,4 +58,52 @@ The MiniFigurine API is a backend service built using Node.js, PostgreSQL, Redis
   {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcwNjAyNjAyMiwiZXhwIjoxNzA2MDI5NjIyfQ.sXUh024InxcgTSoWf-XyHaLoDWXWNzLthFG1uyMuLTs",
   }
+  ```
+### Orders creation
+- **Endpoint:** `/api/orders/order` (POST)
+- **Body:**
+  ```json
+  {
+    "mini": 10,
+    "package": "MiNi Familly pack'"
+  }
+  ```
+- **Response:**
+  ```json
+  {
+    "id": 36,
+    "mini": 40,
+    "userid": 1,
+    "price": 600,
+    "package": "aucun",
+    "status": "PENDING",
+    "serialnumbers": [],
+    "invoice": "{\"price\":600,\"discount\":\"MiNi Familly pack\"}",
+    "createdat": "2024-01-23T16:23:50.469Z",
+    "updatedat": "2024-01-23T16:23:50.469Z"
+  }
+  ```
+### User Login
+- **Endpoint:** `/api/orders/user/:userId` (GET)
+- **Response:**
+  ```json
+  [
+    {
+        "id": 1,
+        "mini": 3,
+        "userid": 2,
+        "price": 45,
+        "package": "aucun",
+        "discount": 0,
+        "status": "DELIVERED",
+        "serialnumbers": [
+            "dae0b572-0168-4490-8978-d2d21d220e0a",
+            "cd851afe-a4c9-478d-9ea7-8aaecdec2c4a",
+            "00b1d1ed-7a7b-46ac-95b8-6bf09a2c3f40",
+        ],
+        "invoice": "{\"price\":45,\"discount\":\"aucun\"}",
+        "createdat": "2024-01-22T18:00:35.967Z",
+        "updatedat": "2024-01-22T18:00:35.967Z"
+    }
+   ]
   ```
