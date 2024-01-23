@@ -72,6 +72,13 @@ The MiniFigurine API is a backend service built using Node.js, PostgreSQL, Redis
   ```
 ### Orders creation
 - **Endpoint:** `/api/orders/order` (POST)
+- **Headers:**
+  ```json
+  {
+    "Authorization": "Bearer <token>",
+    "Content-Type":"application/json"
+  }
+  ```
 - **Body:**
   ```json
   {
@@ -96,6 +103,13 @@ The MiniFigurine API is a backend service built using Node.js, PostgreSQL, Redis
   ```
 ### Get orders by UserId
 - **Endpoint:** `/api/orders/user/:userId` (GET)
+- **Headers:**
+  ```json
+  {
+    "Authorization": "Bearer <token>",
+    "Content-Type":"application/json"
+  }
+  ```
 - **Response:**
   ```json
   [

@@ -23,10 +23,6 @@ COPY . .
 RUN yarn run build
 
 
-# Your app should now be compiled to JavaScript in the dist/ directory. Adjust this if your output directory is different.
-
-# Expose the port your app runs on
 EXPOSE 3000
 
-# Define the command to run your app
-CMD [ "node", "build/app.js" ] # Replace with your start file
+CMD [ "node", "build/app.js" ]
