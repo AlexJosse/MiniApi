@@ -40,6 +40,7 @@ export class OrderController {
       let totalPrice = orderData.mini * basePrice;
       let discount = 0;
 
+      console.log(orderData);
       if (orderData.package === Package.FAMILY && orderData.mini < 50) {
         discount = totalPrice * 0.20;
         totalPrice -= discount;
@@ -53,7 +54,7 @@ export class OrderController {
         discount: discount,
         invoice: JSON.stringify({
           price: totalPrice,
-          discount: orderData.mini && '9.00 euros each figure',
+          discount: orderData.mini >= 50 ? '9.00 euros each figure' : orderData.package,
         }),
       };
 
@@ -100,7 +101,6 @@ export class OrderController {
   
       // Update the order data with the provided values
       const updatedOrder = await OrderModel.updateOrder(orderId, updatedData);
-      console.log(updatedOrder);
       if (!updatedOrder) {
         // Handle the case where the order couldn't be updated
         return res.status(500).json({ message: 'Failed to update order' });

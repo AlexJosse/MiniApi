@@ -11,4 +11,5 @@ module.exports = {
     '!src/__test__/**/*.ts',
   ],
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
+  verbose:true,
 };

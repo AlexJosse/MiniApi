@@ -11,30 +11,6 @@ jest.mock('bcrypt', () => {
   };
 });
 
-/*jest.mock('@prisma/client', () => ({
-  PrismaClient: jest.fn().mockImplementation(() => ({
-    users: {
-      findUnique: jest.fn().mockResolvedValue(''),
-      create: jest.fn().mockResolvedValue({
-        username:'alexandare',
-        email:'alexandrejossaefr@gmail.com',
-        password: 'TestTest123@',
-        address:'14 bis allée saint hubert',
-      }),
-    },
-  })),
-}));*/
-
-/*jest.mock('../models/user.model', () => ({
-  ...jest.requireActual('../models/user.model'),
-  createUser: jest.fn().mockResolvedValue({
-    username:'testUser',
-    email:'test@example.com',
-    password: 'TestTest123@',
-    address:'123 Test St',
-  }),
-}));*/
-
 beforeAll(() => {
   UserModel.findUserByUsername = jest.fn();
 });
@@ -61,7 +37,79 @@ describe('UserController', () => {
       await UserController.createUser(req, res);
       expect(res.statusCode).toBe(201);
     });
+
+    it('should failed to create a new user and return 400 status [usname missing]', async () => {
+      const req = httpMocks.createRequest({
+        body: {
+          email: 'test@example.com',
+          address: '123 Test St',
+          password: 'Password@123',
+        },
+      });
+      const res = httpMocks.createResponse();
+
+      await UserController.createUser(req, res);
+      expect(res.statusCode).toBe(400);
+    });
+
+    it('should failed to create a new user and return 400 status [email missing]', async () => {
+      const req = httpMocks.createRequest({
+        body: {
+          username: 'tEdsdsdsm',
+          address: '123 Test St',
+          password: 'Password@123',
+        },
+      });
+      const res = httpMocks.createResponse();
+
+      await UserController.createUser(req, res);
+      expect(res.statusCode).toBe(400);
+    });
+
+    it('should failed to create a new user and return 400 status [address missing]', async () => {
+      const req = httpMocks.createRequest({
+        body: {
+          username: 'tEdsdsdsm',
+          email: '1est@example.comt',
+          password: 'Password@123',
+        },
+      });
+      const res = httpMocks.createResponse();
+
+      await UserController.createUser(req, res);
+      expect(res.statusCode).toBe(400);
+    });
+
+    it('should failed to create a new user and return 400 status [password missing]', async () => {
+      const req = httpMocks.createRequest({
+        body: {
+          username: 'tEdsdsdsm',
+          email: '1est@example.comt',
+          address: 'rue de la',
+        },
+      });
+      const res = httpMocks.createResponse();
+
+      await UserController.createUser(req, res);
+      expect(res.statusCode).toBe(400);
+    });
+
+    it('should failed to create a new user and return 400 status [password format wrong (minimum 8 characters with symbols)]', async () => {
+      const req = httpMocks.createRequest({
+        body: {
+          username: 'tEdsdsdsm',
+          email: '1est@example.comt',
+          address: 'rue de la',
+          password: 'test',
+        },
+      });
+      const res = httpMocks.createResponse();
+
+      await UserController.createUser(req, res);
+      expect(res.statusCode).toBe(400);
+    });
   });
+
 
   describe('loginUser', () => {
     it('should return a token if the password matches', async () => {
