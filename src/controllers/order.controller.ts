@@ -40,7 +40,6 @@ export class OrderController {
       let totalPrice = orderData.mini * basePrice;
       let discount = 0;
 
-      console.log(orderData);
       if (orderData.package === Package.FAMILY && orderData.mini < 50) {
         discount = totalPrice * 0.20;
         totalPrice -= discount;
